@@ -304,6 +304,113 @@ func TestService_Start(t *testing.T) {
 	}
 }
 
+func TestService_GetReport_ClipsCrossDayActivityAtDayEnd(t *testing.T) {
+	repo := portsmocks.NewMockActivityRepository(t)
+	svc := activity.NewService(repo, nil)
+
+	start := time.Date(2026, 3, 4, 22, 25, 0, 0, time.Local)
+	end := time.Date(2026, 3, 5, 1, 21, 0, 0, time.Local)
+	from := time.Date(2026, 3, 4, 0, 0, 0, 0, time.Local)
+	to := from.Add(24 * time.Hour)
+
+	repo.EXPECT().Find(mock.Anything, mock.MatchedBy(func(f dto.ActivityFilter) bool {
+		return f.FromDate != nil && f.ToDate != nil &&
+			f.FromDate.Equal(from) && f.ToDate.Equal(to)
+	})).Return([]models.Activity{
+		{
+			Project:     "ProjectA",
+			Description: "Design Database",
+			StartTime:   start,
+			EndTime:     &end,
+		},
+	}, nil)
+
+	report, err := svc.GetReport(context.Background(), dto.ActivityFilter{
+		FromDate: &from,
+		ToDate:   &to,
+	})
+	require.NoError(t, err)
+	require.Len(t, report.Activities, 1)
+
+	got := report.Activities[0]
+	assert.True(t, got.StartTime.Equal(start))
+	require.NotNil(t, got.EndTime)
+	assert.True(t, got.EndTime.Equal(to))
+	assert.Equal(t, 95*time.Minute, report.TotalDuration)
+
+	projectReport, ok := report.ByProject["ProjectA"]
+	require.True(t, ok)
+	assert.Equal(t, 95*time.Minute, projectReport.Duration)
+}
+
+func TestService_GetReport_ClipsCrossDayActivityAtDayStart(t *testing.T) {
+	repo := portsmocks.NewMockActivityRepository(t)
+	svc := activity.NewService(repo, nil)
+
+	start := time.Date(2026, 3, 4, 22, 25, 0, 0, time.Local)
+	end := time.Date(2026, 3, 5, 1, 21, 0, 0, time.Local)
+	from := time.Date(2026, 3, 5, 0, 0, 0, 0, time.Local)
+	to := from.Add(24 * time.Hour)
+
+	repo.EXPECT().Find(mock.Anything, mock.MatchedBy(func(f dto.ActivityFilter) bool {
+		return f.FromDate != nil && f.ToDate != nil &&
+			f.FromDate.Equal(from) && f.ToDate.Equal(to)
+	})).Return([]models.Activity{
+		{
+			Project:     "ProjectA",
+			Description: "Design Database",
+			StartTime:   start,
+			EndTime:     &end,
+		},
+	}, nil)
+
+	report, err := svc.GetReport(context.Background(), dto.ActivityFilter{
+		FromDate: &from,
+		ToDate:   &to,
+	})
+	require.NoError(t, err)
+	require.Len(t, report.Activities, 1)
+
+	got := report.Activities[0]
+	assert.True(t, got.StartTime.Equal(from))
+	require.NotNil(t, got.EndTime)
+	assert.True(t, got.EndTime.Equal(end))
+	assert.Equal(t, 81*time.Minute, report.TotalDuration)
+
+	projectReport, ok := report.ByProject["ProjectA"]
+	require.True(t, ok)
+	assert.Equal(t, 81*time.Minute, projectReport.Duration)
+}
+
+func TestService_GetReport_WithoutDateRangeKeepsFullDuration(t *testing.T) {
+	repo := portsmocks.NewMockActivityRepository(t)
+	svc := activity.NewService(repo, nil)
+
+	start := time.Date(2026, 3, 4, 22, 25, 0, 0, time.Local)
+	end := time.Date(2026, 3, 5, 1, 21, 0, 0, time.Local)
+
+	repo.EXPECT().Find(mock.Anything, mock.MatchedBy(func(f dto.ActivityFilter) bool {
+		return f.FromDate == nil && f.ToDate == nil
+	})).Return([]models.Activity{
+		{
+			Project:     "ProjectA",
+			Description: "Design Database",
+			StartTime:   start,
+			EndTime:     &end,
+		},
+	}, nil)
+
+	report, err := svc.GetReport(context.Background(), dto.ActivityFilter{})
+	require.NoError(t, err)
+	require.Len(t, report.Activities, 1)
+
+	got := report.Activities[0]
+	assert.True(t, got.StartTime.Equal(start))
+	require.NotNil(t, got.EndTime)
+	assert.True(t, got.EndTime.Equal(end))
+	assert.Equal(t, end.Sub(start), report.TotalDuration)
+}
+
 func TestService_Remove(t *testing.T) {
 	tests := []struct {
 		name      string
