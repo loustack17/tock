@@ -12,7 +12,6 @@ import (
 
 	"github.com/kriuchkov/tock/internal/core/dto"
 	"github.com/kriuchkov/tock/internal/core/models"
-	"github.com/kriuchkov/tock/internal/timeutil"
 )
 
 func TestRepository_Save(t *testing.T) {
@@ -106,7 +105,7 @@ func TestRepository_Find(t *testing.T) {
 			Project:     "Work",
 			Description: "Coding",
 			StartTime:   baseTime.AddDate(0, 0, 1), // Oct 16
-			EndTime:     nil,                          // Running
+			EndTime:     nil,                       // Running
 		},
 	}
 
@@ -190,7 +189,7 @@ func TestRepository_Find_DateRangeIncludesCrossMonthOverlap(t *testing.T) {
 	}))
 
 	from := time.Date(2026, 4, 1, 0, 0, 0, 0, time.UTC)
-	_, to := timeutil.LocalDayBounds(from)
+	to := from.AddDate(0, 0, 1)
 	got, err := repo.Find(ctx, dto.ActivityFilter{
 		FromDate: &from,
 		ToDate:   &to,
