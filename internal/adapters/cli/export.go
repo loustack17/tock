@@ -276,7 +276,7 @@ func writeExportFile(outputDir, format string, content []byte) (string, error) {
 	}
 
 	baseName := "tock-report-" + time.Now().Format("20060102-150405.000000000")
-	for attempt := 0; attempt < 1000; attempt++ {
+	for attempt := range 1000 {
 		filename := fmt.Sprintf("%s.%s", baseName, format)
 		if attempt > 0 {
 			filename = fmt.Sprintf("%s-%d.%s", baseName, attempt, format)

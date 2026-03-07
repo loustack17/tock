@@ -18,7 +18,6 @@ import (
 	"github.com/kriuchkov/tock/internal/timeutil"
 )
 
-
 func TestService_Stop(t *testing.T) {
 	now := time.Now()
 

@@ -100,11 +100,9 @@ func matchesFilter(act models.Activity, filter dto.ActivityFilter) bool {
 }
 
 func overlapsDateRange(act models.Activity, fromDate, toDate *time.Time) bool {
-	actEnd := act.StartTime
+	actEnd := time.Now()
 	if act.EndTime != nil {
 		actEnd = *act.EndTime
-	} else {
-		actEnd = time.Now()
 	}
 
 	if fromDate != nil && !actEnd.After(*fromDate) {

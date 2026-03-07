@@ -82,11 +82,9 @@ func (r *repository) Find(_ context.Context, filter dto.ActivityFilter) ([]model
 }
 
 func overlapsDateRange(act models.Activity, fromDate, toDate *time.Time) bool {
-	actEnd := act.StartTime
+	actEnd := time.Now()
 	if act.EndTime != nil {
 		actEnd = *act.EndTime
-	} else {
-		actEnd = time.Now()
 	}
 
 	if fromDate != nil && !actEnd.After(*fromDate) {
