@@ -1,9 +1,28 @@
 # Tock
 
-[![Release](https://img.shields.io/github/v/release/kriuchkov/tock?style=flat-square)](https://github.com/kriuchkov/tock/releases) [![License](https://img.shields.io/github/license/kriuchkov/tock?style=flat-square)](LICENSE) [![Stars](https://img.shields.io/github/stars/kriuchkov/tock?style=flat-square)](https://github.com/kriuchkov/tock/stargazers) [![Go Version](https://img.shields.io/github/go-mod/go-version/kriuchkov/tock?style=flat-square&logo=go&label=Go)](go.mod) [![CI](https://img.shields.io/github/actions/workflow/status/kriuchkov/tock/ci.yml?style=flat-square&label=tests)](https://github.com/kriuchkov/tock/actions)
+[![Release](https://img.shields.io/github/v/release/kriuchkov/tock?style=flat-square)](https://github.com/kriuchkov/tock/releases) [![License](https://img.shields.io/github/license/kriuchkov/tock?style=flat-square)](LICENSE) [![Stars](https://img.shields.io/github/stars/kriuchkov/tock?style=flat-square)](https://github.com/kriuchkov/tock/stargazers) [![Go Version](https://img.shields.io/github/go-mod/go-version/kriuchkov/tock?style=flat-square&logo=go&label=Go)](go.mod) [![CI](https://img.shields.io/github/actions/workflow/status/kriuchkov/tock/ci.yml?style=flat-square&label=tests)](https://github.com/kriuchkov/tock/actions) [![OpenClaw](https://img.shields.io/badge/OpenClaw-ready-0A84FF?style=flat-square)](docs/openclaw.md)
 
-[Features](#features) • [Quick Start](#quick-start) • [Commands](#commands) • [OpenClaw](#openclaw) •
-[Configuration](#configuration) • [Theme](#theme) • [File Format](#file-format) • [Shell](#shell-completion) • [Inspiration](#inspiration) • [License](#license)
+<p align="center">
+  <a href="#features"><strong>Features</strong></a>
+  <span>&nbsp;•&nbsp;</span>
+  <a href="#quick-start"><strong>Quick Start</strong></a>
+  <span>&nbsp;•&nbsp;</span>
+  <a href="#commands"><strong>Commands</strong></a>
+  <span>&nbsp;•&nbsp;</span>
+  <a href="#openclaw"><strong>OpenClaw</strong></a>
+  <br />
+  <a href="#configuration"><strong>Configuration</strong></a>
+  <span>&nbsp;•&nbsp;</span>
+  <a href="#theming"><strong>Theme</strong></a>
+  <span>&nbsp;•&nbsp;</span>
+  <a href="#file-format"><strong>File Format</strong></a>
+  <span>&nbsp;•&nbsp;</span>
+  <a href="#shell-completion"><strong>Shell</strong></a>
+  <span>&nbsp;•&nbsp;</span>
+  <a href="#inspiration"><strong>Inspiration</strong></a>
+  <span>&nbsp;•&nbsp;</span>
+  <a href="#license"><strong>License</strong></a>
+</p>
 
 ## Features
 
